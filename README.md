@@ -17,6 +17,6 @@ This script will ask for directory to process and walkthrough it to gather all G
 Initial project creation on 2/10/2015.
 
 
-</content>
+></content>
   <tabTrigger>readme</tabTrigger>
 </snippet>
