@@ -1,4 +1,6 @@
-﻿## If ($args.GetLength() > 0) {
+﻿# This is the dev version
+
+## If ($args.GetLength() > 0) {
 #        Foreach ($arg in $args) {
 #            If ($arg = "-v") { $MyVerbose = True }
 #            Write-Console "Verbose mode enabled."
