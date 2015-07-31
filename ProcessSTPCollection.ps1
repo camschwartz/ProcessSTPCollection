@@ -1,11 +1,4 @@
-﻿## If ($args.GetLength() > 0) {
-#        Foreach ($arg in $args) {
-#            If ($arg = "-v") { $MyVerbose = True }
-#            Write-Console "Verbose mode enabled."
-#            }
-#        }
-
-
+﻿
 If (Test-Path 'C:\Program Files (x86)\GnuWin32\bin\gzip.exe') 
     { $gzip_Path = 'C:\Program Files (x86)\GnuWin32\bin\gzip.exe' }
 ElseIf ( Test-Path '.\gzip.exe' )
