@@ -1,13 +1,4 @@
-﻿# This is the dev version
-
-## If ($args.GetLength() > 0) {
-#        Foreach ($arg in $args) {
-#            If ($arg = "-v") { $MyVerbose = True }
-#            Write-Console "Verbose mode enabled."
-#            }
-#        }
-
-
+﻿
 If (Test-Path 'C:\Program Files (x86)\GnuWin32\bin\gzip.exe') 
     { $gzip_Path = 'C:\Program Files (x86)\GnuWin32\bin\gzip.exe' }
 ElseIf ( Test-Path '.\gzip.exe' )
@@ -99,22 +90,30 @@ If ($Master_TTP_GZ_FileList) {
     
     $Master_TTP_FileList = Get-ChildItem -Recurse -Path $BasePath -Filter *.ttp
 
+    # Reset file counter
+    $i = 0
+    
     foreach ($Item in $Master_TTP_FileList)
         {
-    
-            $Item_TTPFile = Get-Item ( $Item.FullName.TrimEnd(".gz") )
+        # Increment file counter
+        $i = $i + 1
+
+        # Build & Update Progress bar
+        Write-Progress -Activity "Converting TTP (text) to BTP (binary) files..." -status ("Processing " + $Item.Name) -PercentComplete ($i / $Master_TTP_FileList.Count * 100)
         
-            # Convert TTP file to BTP file
-            & $StpTtpCnv_Path -f $Item_TTPFile.FullName
+        $Item_TTPFile = Get-Item ( $Item.FullName.TrimEnd(".gz") )
+        
+        # Convert TTP file to BTP file
+        & $StpTtpCnv_Path -f $Item_TTPFile.FullName
                 
-            # Test for successful TTP -> BTP conversion
-            If (Test-Path ( $Item_TTPFile.FullName.TrimEnd(".ttp") + ".btp") )
-                {
+        # Test for successful TTP -> BTP conversion
+        If (Test-Path ( $Item_TTPFile.FullName.TrimEnd(".ttp") + ".btp") )
+            {
         
-                $Item_BTPFile = Get-Item ( $Item_TTPFile.FullName.TrimEnd(".ttp") + ".btp" )
+            $Item_BTPFile = Get-Item ( $Item_TTPFile.FullName.TrimEnd(".ttp") + ".btp" )
             
-                # Clean up TTP file if BTP file creation successful
-                Remove-Item ($Item_TTPFile)
+            # Clean up TTP file if BTP file creation successful
+            Remove-Item ($Item_TTPFile)
         
             }
 
@@ -123,7 +122,8 @@ If ($Master_TTP_GZ_FileList) {
 # All finished, report to user.
  ""
  "Batch run complete."
-
+ ""
+ ""
 
     }
 Else
